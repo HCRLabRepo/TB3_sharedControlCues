@@ -6,7 +6,7 @@ This repository contains a Unity-based robot simulation integrated with a ROS ba
 
 ## 🚀 Getting Started
 
-Follow the steps below to set up the project on your local machine.
+Follow the steps below to set up the project on your local machine (This guide is written specifically for Windows and Windows Subsystem for Linux (WSL)).
 
 ### 📥 1. Clone the Repository
 
@@ -14,21 +14,68 @@ Follow the steps below to set up the project on your local machine.
 git clone https://github.com/imorange/Mobile-Robot-Project.git
 cd Mobile-Robot-Project
 ```
-### 🎮 2. Open the Unity Project
+
+### 📳 2. Connect the Haptic device to your machine
+
+- [Read documentation and **install their drivers (OpenHaptics for Windows Developer Edition v3.5)**](https://support.3dsystems.com/s/article/OpenHaptics-for-Windows-Developer-Edition-v35?language=en_US)
+
+- Run Touch Smart Setup and initialise Haptic device
+
+### 🎮 3. Open the Unity Project
 - Open Unity Hub
 
 - Click Add → Add Existing Project
 
-- Select the folder Mobile-Robot-Project/myunityproject
+- Select the folder Mobile-Robot-Project/MyUnityProject
 
 - Open it with Unity 2021.3+ (or your required version)
 
-### 🤖 3. Set Up the ROS Package
+### 🤖 4. Set Up the ROS Package (WSL)
 ```bash
-# Copy ROS package into your catkin workspace
-cp -r Ros_Package ~/catkin_ws/src/
+# Clone the GitHub repository into your Catkin workspace
+cd ~/catkin_ws/src
+git clone https://github.com/RcO2Rob/Dis-Project.git
+
+# Restructure the directory
+cd ~/catkin_ws/src
+mv Dis-Project/myproject .
+
+# Build catkin workspace
 cd ~/catkin_ws
 catkin_make
-source devel/setup.bash
 ```
 
+### 📶 5. Set Up ROS# Unity Connection
+
+```bash
+# Install rosbridge_server in WSL
+sudo apt update
+sudo apt install ros-noetic-rosbridge-server
+
+# Launch roscore and rosbridge in two separate terminals
+roscore
+roslaunch rosbridge_server rosbridge_websocket.launch
+
+# Find IP address of WSL
+hostname -I
+
+# Use that IP address in any RosConnector and modify the port address
+```
+<p align="center">
+<img src="Images/RosconnectorGuide.png"/>
+</p>
+
+```bash
+# Run shared_control.py script on a separate terminal
+cd ~/catkin_ws/src/myproject/src/
+python3 shared_controller.py
+```
+
+### ✅ 6. Run your scene, and everything should be ready to go!
+
+## Brief Scene Descriptions
+Scenes Main Task A, B, and C differ by the location of target objects. In all four conditions (modes), they differ only in the clues presented.
+- Condition A has no cues 
+- Condition B has a mini-map, collision warning line, and repulsive force
+- Condition C has a guidance force and an autonomous level indicator
+- Condition D combines the cues from B and C.
