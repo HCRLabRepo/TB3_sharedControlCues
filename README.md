@@ -22,7 +22,8 @@ cd Mobile-Robot-Project
 - Run Touch Smart Setup and initialise Haptic device
 
 ### 🎮 3. Open the Unity Project
-- Open Unity Hub
+
+- Open [Unity Hub](https://unity.com/download)
 
 - Click Add → Add Existing Project
 
